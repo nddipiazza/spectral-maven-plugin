@@ -84,13 +84,15 @@ public class SpectralValidateMojo extends AbstractMojo {
 
         try {
             SpectralExecutor executor = new SpectralExecutor(getLog());
+            File targetDirectory = new File(project.getBuild().getDirectory());
             SpectralResult result = executor.validate(
                 inputDirectory, 
                 files, 
                 ruleset, 
                 format, 
                 outputFile, 
-                verbose
+                verbose,
+                targetDirectory
             );
 
             if (result.hasViolations() && failOnViolations) {
