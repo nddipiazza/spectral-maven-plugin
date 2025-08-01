@@ -75,9 +75,10 @@ public class SpectralExecutor {
                 throw new SpectralExecutionException("Could not find Spectral executable: " + resourcePath);
             }
             
-            // Create temp file
+            // Create temp file with proper executable name
             Path tempDir = Files.createTempDirectory("spectral-maven-plugin");
-            Path executablePath = tempDir.resolve(SPECTRAL_EXECUTABLE_NAME);
+            String executableName = isWindows() ? "spectral.exe" : "spectral";
+            Path executablePath = tempDir.resolve(executableName);
             
             try (FileOutputStream outputStream = new FileOutputStream(executablePath.toFile())) {
                 IOUtils.copy(inputStream, outputStream);
@@ -276,36 +277,36 @@ public class SpectralExecutor {
     }
     
     /**
-     * Determines the platform-specific executable name
+     * Determines the platform-specific executable name and resource path
      */
     private static String getSpectralExecutableName() {
         String os = System.getProperty("os.name").toLowerCase();
         String arch = System.getProperty("os.arch").toLowerCase();
         
         if (os.contains("win")) {
-            return "spectral.exe";
+            return "spectral/windows/spectral.exe";
         } else if (os.contains("mac")) {
             if (arch.contains("aarch64") || arch.contains("arm")) {
-                return "spectral"; // macos-arm64
+                return "spectral/macos-arm64/spectral";
             } else {
-                return "spectral"; // macos-x64
+                return "spectral/macos-x64/spectral";
             }
         } else if (os.contains("nix") || os.contains("nux")) {
             if (arch.contains("aarch64") || arch.contains("arm")) {
-                return "spectral"; // linux-arm64
+                return "spectral/linux-arm64/spectral";
             } else {
-                return "spectral"; // linux-x64
+                return "spectral/linux-x64/spectral";
             }
         } else if (os.contains("alpine")) {
             if (arch.contains("aarch64") || arch.contains("arm")) {
-                return "spectral"; // alpine-arm64
+                return "spectral/alpine-arm64/spectral";
             } else {
-                return "spectral"; // alpine-x64
+                return "spectral/alpine-x64/spectral";
             }
         }
         
         // Default to linux-x64
-        return "spectral";
+        return "spectral/linux-x64/spectral";
     }
     
     /**
