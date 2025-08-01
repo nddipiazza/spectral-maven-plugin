@@ -1,0 +1,62 @@
+name: Validate Project
+
+on:
+  schedule:
+    # Run weekly on Sundays at 2 AM UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate OpenAPI and Project Health
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: 17
+        distribution: 'temurin'
+        
+    - name: Cache Maven dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+        
+    - name: Download Spectral executables
+      run: |
+        chmod +x copy-spectral-executables.sh
+        ./copy-spectral-executables.sh
+        
+    - name: Build plugin
+      run: mvn clean install -B -q
+      
+    - name: Validate test project OpenAPI files
+      run: |
+        cd test-project
+        mvn io.github.ndipiazza:spectral-maven-plugin:validate -B
+        
+    - name: Check for dependency vulnerabilities
+      run: mvn org.owasp:dependency-check-maven:check -B
+      
+    - name: Verify plugin packaging
+      run: |
+        # Check that all platform executables are properly packaged
+        for module in spectral-executables/spectral-*; do
+          if [ -d "$module" ]; then
+            echo "Checking $module..."
+            jar tf "$module/target/"*.jar | grep -E "(spectral|spectral\.exe)" || {
+              echo "ERROR: No spectral executable found in $module"
+              exit 1
+            }
+          fi
+        done
+        echo "All executables properly packaged!"
+        
+    - name: Test plugin help
+      run: mvn io.github.ndipiazza:spectral-maven-plugin:help -B
