@@ -279,30 +279,34 @@ public class SpectralExecutor {
         String os = System.getProperty("os.name").toLowerCase();
         String arch = System.getProperty("os.arch").toLowerCase();
         
+        String selectedBinary;
+        
         if (os.contains("win")) {
-            return "spectral/windows/spectral.exe";
+            selectedBinary = "spectral/windows/spectral.exe";
         } else if (os.contains("mac")) {
             if (arch.contains("aarch64") || arch.contains("arm")) {
-                return "spectral/macos-arm64/spectral";
+                selectedBinary = "spectral/macos-arm64/spectral";
             } else {
-                return "spectral/macos-x64/spectral";
+                selectedBinary = "spectral/macos-x64/spectral";
             }
         } else if (os.contains("nix") || os.contains("nux")) {
             if (arch.contains("aarch64") || arch.contains("arm")) {
-                return "spectral/linux-arm64/spectral";
+                selectedBinary = "spectral/linux-arm64/spectral";
             } else {
-                return "spectral/linux-x64/spectral";
+                selectedBinary = "spectral/linux-x64/spectral";
             }
         } else if (os.contains("alpine")) {
             if (arch.contains("aarch64") || arch.contains("arm")) {
-                return "spectral/alpine-arm64/spectral";
+                selectedBinary = "spectral/alpine-arm64/spectral";
             } else {
-                return "spectral/alpine-x64/spectral";
+                selectedBinary = "spectral/alpine-x64/spectral";
             }
+        } else {
+            // Default to linux-x64
+            selectedBinary = "spectral/linux-x64/spectral";
         }
         
-        // Default to linux-x64
-        return "spectral/linux-x64/spectral";
+        return selectedBinary;
     }
     
     /**
