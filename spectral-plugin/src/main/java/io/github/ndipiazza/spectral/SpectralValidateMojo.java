@@ -37,8 +37,10 @@ public class SpectralValidateMojo extends AbstractMojo {
 
     /**
      * Spectral ruleset file to use for validation.
+     * Defaults to .spectral.yaml in the project root directory.
+     * If the default file doesn't exist, Spectral will use its built-in ruleset.
      */
-    @Parameter(property = "spectral.ruleset")
+    @Parameter(property = "spectral.ruleset", defaultValue = "${project.basedir}/.spectral.yaml")
     private File ruleset;
 
     /**
@@ -82,13 +84,15 @@ public class SpectralValidateMojo extends AbstractMojo {
 
         try {
             SpectralExecutor executor = new SpectralExecutor(getLog());
+            File targetDirectory = new File(project.getBuild().getDirectory());
             SpectralResult result = executor.validate(
                 inputDirectory, 
                 files, 
                 ruleset, 
                 format, 
                 outputFile, 
-                verbose
+                verbose,
+                targetDirectory
             );
 
             if (result.hasViolations() && failOnViolations) {

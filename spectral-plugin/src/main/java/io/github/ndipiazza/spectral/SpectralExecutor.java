@@ -1,14 +1,10 @@
 package io.github.ndipiazza.spectral;
 
 import org.apache.maven.plugin.logging.Log;
-import org.codehaus.plexus.util.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -33,10 +29,11 @@ public class SpectralExecutor {
                                  File ruleset, 
                                  String format, 
                                  File outputFile, 
-                                 boolean verbose) throws SpectralExecutionException {
+                                 boolean verbose,
+                                 File targetDirectory) throws SpectralExecutionException {
         
         // Extract the appropriate Spectral executable
-        File spectralExecutable = extractSpectralExecutable();
+        File spectralExecutable = extractSpectralExecutable(targetDirectory);
         
         List<File> filesToValidate = determineFilesToValidate(inputDirectory, files);
         
@@ -66,7 +63,7 @@ public class SpectralExecutor {
     /**
      * Extracts the platform-specific Spectral executable from resources
      */
-    private File extractSpectralExecutable() throws SpectralExecutionException {
+    private File extractSpectralExecutable(File targetDirectory) throws SpectralExecutionException {
         try {
             String resourcePath = "/" + SPECTRAL_EXECUTABLE_NAME;
             InputStream inputStream = getClass().getResourceAsStream(resourcePath);
@@ -74,18 +71,22 @@ public class SpectralExecutor {
             if (inputStream == null) {
                 throw new SpectralExecutionException("Could not find Spectral executable: " + resourcePath);
             }
+
+            log.info("Spectral exe name: " + SPECTRAL_EXECUTABLE_NAME);
             
-            // Create temp file with proper executable name
-            Path tempDir = Files.createTempDirectory("spectral-maven-plugin");
-            String executableName = isWindows() ? "spectral.exe" : "spectral";
-            Path executablePath = tempDir.resolve(executableName);
-            
-            try (FileOutputStream outputStream = new FileOutputStream(executablePath.toFile())) {
-                IOUtils.copy(inputStream, outputStream);
+            // Create spectral directory in target directory
+            File spectralDir = new File(targetDirectory, "spectral-maven-plugin");
+            if (!spectralDir.exists() && !spectralDir.mkdirs()) {
+                throw new SpectralExecutionException("Failed to create spectral directory: " + spectralDir.getAbsolutePath());
             }
-            // Copy executable to temp location using binary-safe method
+            
+            String executableName = isWindows() ? "spectral.exe" : "spectral";
+            log.info("Spectral executableName = " + executableName);
+            File executableFile = new File(spectralDir, executableName);
+            
+            // Copy executable to target location using binary-safe method
             try (InputStream is = inputStream;
-                 OutputStream os = Files.newOutputStream(executablePath)) {
+                 OutputStream os = Files.newOutputStream(executableFile.toPath())) {
                 byte[] buffer = new byte[8192];
                 int bytesRead;
                 while ((bytesRead = is.read(buffer)) != -1) {
@@ -94,7 +95,6 @@ public class SpectralExecutor {
             }
             
             // Make executable (Unix/Linux/macOS)
-            File executableFile = executablePath.toFile();
             if (!isWindows()) {
                 executableFile.setExecutable(true);
                 // Also set read permission to ensure it's accessible
@@ -108,9 +108,7 @@ public class SpectralExecutor {
                 log.debug("Made executable: " + executableFile.getAbsolutePath());
             }
             
-            // // Clean up on exit
-            // executableFile.deleteOnExit();
-            // tempDir.toFile().deleteOnExit();
+            log.debug("Extracted Spectral executable to: " + executableFile.getAbsolutePath());
             
             return executableFile;
             
@@ -130,6 +128,9 @@ public class SpectralExecutor {
         if (ruleset != null && ruleset.exists()) {
             command.add("--ruleset");
             command.add(ruleset.getAbsolutePath());
+            log.debug("Using custom ruleset: " + ruleset.getAbsolutePath());
+        } else if (ruleset != null) {
+            log.debug("Specified ruleset file does not exist: " + ruleset.getAbsolutePath() + ", using Spectral default rules");
         }
         
         if (format != null && !format.trim().isEmpty()) {
