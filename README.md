@@ -27,6 +27,30 @@ Permission denied (os error 13)
 3. Verifies the file is actually executable before proceeding
 4. Provides clear error messages if permission setting fails
 
+### Resource Organization
+
+The plugin organizes platform-specific executables in a structured resource hierarchy:
+```
+src/main/resources/
+└── spectral/
+    ├── windows/
+    │   └── spectral.exe
+    ├── linux-x64/
+    │   └── spectral
+    ├── linux-arm64/
+    │   └── spectral
+    ├── macos-x64/
+    │   └── spectral
+    ├── macos-arm64/
+    │   └── spectral
+    ├── alpine-x64/
+    │   └── spectral
+    └── alpine-arm64/
+        └── spectral
+```
+
+This organization allows multiple platform executables to coexist in the same environment without conflicts.
+
 The fixed implementation replaces the problematic:
 ```java
 Files.copy(inputStream, executablePath, StandardCopyOption.REPLACE_EXISTING);

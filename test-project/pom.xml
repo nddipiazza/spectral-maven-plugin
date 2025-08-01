@@ -37,6 +37,43 @@
                     <format>text</format>
                     <verbose>true</verbose>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.github.ndipiazza</groupId>
+                        <artifactId>spectral-win</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.ndipiazza</groupId>
+                        <artifactId>spectral-alpine-arm64</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.ndipiazza</groupId>
+                        <artifactId>spectral-alpine-x64</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.ndipiazza</groupId>
+                        <artifactId>spectral-linux-arm64</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.ndipiazza</groupId>
+                        <artifactId>spectral-linux-x64</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.ndipiazza</groupId>
+                        <artifactId>spectral-macos-arm64</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.ndipiazza</groupId>
+                        <artifactId>spectral-macos-x64</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

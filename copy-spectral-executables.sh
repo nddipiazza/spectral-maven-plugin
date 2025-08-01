@@ -39,16 +39,17 @@ mkdir -p "$TEMP_DIR"
 download_and_copy_executable() {
     local filename="$1"
     local dest_dir="$2"
-    local dest_file="$3"
+    local resource_path="$3"
     local url="$BASE_URL/$SPECTRAL_VERSION/$filename"
     local temp_file="$TEMP_DIR/$filename"
     
     echo "Downloading: $filename"
     if curl $CURL_ADDITIONAL_ARGS -L -o "$temp_file" "$url" --fail --silent --show-error; then
-        echo "Copying: $filename -> $dest_dir/src/main/resources/$dest_file"
-        mkdir -p "$dest_dir/src/main/resources"
-        cp "$temp_file" "$dest_dir/src/main/resources/$dest_file"
-        chmod +x "$dest_dir/src/main/resources/$dest_file"
+        echo "Copying: $filename -> $dest_dir/src/main/resources/$resource_path"
+        rm -rf "$dest_dir/src/main/resources"
+        mkdir -p "$dest_dir/src/main/resources/$(dirname $resource_path)"
+        cp "$temp_file" "$dest_dir/src/main/resources/$resource_path"
+        chmod +x "$dest_dir/src/main/resources/$resource_path"
         echo "✓ Successfully downloaded and installed $filename"
     else
         echo "✗ Failed to download $filename from $url"
@@ -63,19 +64,19 @@ if ! command -v curl &> /dev/null; then
 fi
 
 # Download Windows executable
-download_and_copy_executable "spectral.exe" "$PLUGIN_DIR/spectral-win" "spectral.exe"
+download_and_copy_executable "spectral.exe" "$PLUGIN_DIR/spectral-win" "spectral/windows/spectral.exe"
 
 # Download Linux executables
-download_and_copy_executable "spectral-linux-x64" "$PLUGIN_DIR/spectral-linux-x64" "spectral"
-download_and_copy_executable "spectral-linux-arm64" "$PLUGIN_DIR/spectral-linux-arm64" "spectral"
+download_and_copy_executable "spectral-linux-x64" "$PLUGIN_DIR/spectral-linux-x64" "spectral/linux-x64/spectral"
+download_and_copy_executable "spectral-linux-arm64" "$PLUGIN_DIR/spectral-linux-arm64" "spectral/linux-arm64/spectral"
 
 # Download macOS executables
-download_and_copy_executable "spectral-macos-x64" "$PLUGIN_DIR/spectral-macos-x64" "spectral"
-download_and_copy_executable "spectral-macos-arm64" "$PLUGIN_DIR/spectral-macos-arm64" "spectral"
+download_and_copy_executable "spectral-macos-x64" "$PLUGIN_DIR/spectral-macos-x64" "spectral/macos-x64/spectral"
+download_and_copy_executable "spectral-macos-arm64" "$PLUGIN_DIR/spectral-macos-arm64" "spectral/macos-arm64/spectral"
 
 # Download Alpine executables
-download_and_copy_executable "spectral-alpine-x64" "$PLUGIN_DIR/spectral-alpine-x64" "spectral"
-download_and_copy_executable "spectral-alpine-arm64" "$PLUGIN_DIR/spectral-alpine-arm64" "spectral"
+download_and_copy_executable "spectral-alpine-x64" "$PLUGIN_DIR/spectral-alpine-x64" "spectral/alpine-x64/spectral"
+download_and_copy_executable "spectral-alpine-arm64" "$PLUGIN_DIR/spectral-alpine-arm64" "spectral/alpine-arm64/spectral"
 
 # Clean up temporary directory
 rm -rf "$TEMP_DIR"
