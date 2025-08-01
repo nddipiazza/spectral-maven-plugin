@@ -34,6 +34,8 @@ jobs:
         
     - name: Download Spectral executables (Unix/Linux/macOS)
       if: runner.os != 'Windows'
+    - name: Download Spectral executables (Unix/Linux/macOS)
+      if: runner.os != 'Windows'
       run: |
         chmod +x copy-spectral-executables.sh
         ./copy-spectral-executables.sh
@@ -42,6 +44,11 @@ jobs:
       if: runner.os == 'Windows'
       run: .\copy-spectral-executables.ps1
       shell: pwsh
+        
+    - name: Download Spectral executables (Windows)
+      if: runner.os == 'Windows'
+      run: .\copy-spectral-executables.ps1
+      shell: powershell
         
     - name: Run tests
       run: mvn clean test -B
@@ -78,6 +85,8 @@ jobs:
         
     - name: Download Spectral executables (Unix/Linux/macOS)
       if: runner.os != 'Windows'
+    - name: Download Spectral executables (Unix/Linux/macOS)
+      if: runner.os != 'Windows'
       run: |
         chmod +x copy-spectral-executables.sh
         ./copy-spectral-executables.sh
@@ -86,6 +95,12 @@ jobs:
       if: runner.os == 'Windows'
       run: .\copy-spectral-executables.ps1
       shell: pwsh
+      
+        
+    - name: Download Spectral executables (Windows)
+      if: runner.os == 'Windows'
+      run: .\copy-spectral-executables.ps1
+      shell: powershell
       
     - name: Build project
       run: mvn clean install -B -q
