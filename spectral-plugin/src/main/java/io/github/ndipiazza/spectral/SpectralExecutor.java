@@ -6,8 +6,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -73,10 +71,13 @@ public class SpectralExecutor {
             if (inputStream == null) {
                 throw new SpectralExecutionException("Could not find Spectral executable: " + resourcePath);
             }
+
+            log.info("Spectral exe name: " + SPECTRAL_EXECUTABLE_NAME);
             
             // Create temp file with proper executable name
             Path tempDir = Files.createTempDirectory("spectral-maven-plugin");
             String executableName = isWindows() ? "spectral.exe" : "spectral";
+            log.info("Spectral executableName = " + executableName);
             Path executablePath = tempDir.resolve(executableName);
             
             // Copy executable to temp location using binary-safe method
@@ -126,6 +127,9 @@ public class SpectralExecutor {
         if (ruleset != null && ruleset.exists()) {
             command.add("--ruleset");
             command.add(ruleset.getAbsolutePath());
+            log.debug("Using custom ruleset: " + ruleset.getAbsolutePath());
+        } else if (ruleset != null) {
+            log.debug("Specified ruleset file does not exist: " + ruleset.getAbsolutePath() + ", using Spectral default rules");
         }
         
         if (format != null && !format.trim().isEmpty()) {
@@ -279,34 +283,30 @@ public class SpectralExecutor {
         String os = System.getProperty("os.name").toLowerCase();
         String arch = System.getProperty("os.arch").toLowerCase();
         
-        String selectedBinary;
-        
         if (os.contains("win")) {
-            selectedBinary = "spectral/windows/spectral.exe";
+            return "spectral/windows/spectral.exe";
         } else if (os.contains("mac")) {
             if (arch.contains("aarch64") || arch.contains("arm")) {
-                selectedBinary = "spectral/macos-arm64/spectral";
+                return "spectral/macos-arm64/spectral";
             } else {
-                selectedBinary = "spectral/macos-x64/spectral";
+                return "spectral/macos-x64/spectral";
             }
         } else if (os.contains("nix") || os.contains("nux")) {
             if (arch.contains("aarch64") || arch.contains("arm")) {
-                selectedBinary = "spectral/linux-arm64/spectral";
+                return "spectral/linux-arm64/spectral";
             } else {
-                selectedBinary = "spectral/linux-x64/spectral";
+                return "spectral/linux-x64/spectral";
             }
         } else if (os.contains("alpine")) {
             if (arch.contains("aarch64") || arch.contains("arm")) {
-                selectedBinary = "spectral/alpine-arm64/spectral";
+                return "spectral/alpine-arm64/spectral";
             } else {
-                selectedBinary = "spectral/alpine-x64/spectral";
+                return "spectral/alpine-x64/spectral";
             }
-        } else {
-            // Default to linux-x64
-            selectedBinary = "spectral/linux-x64/spectral";
         }
         
-        return selectedBinary;
+        // Default to linux-x64
+        return "spectral/linux-x64/spectral";
     }
     
     /**
