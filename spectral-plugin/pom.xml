@@ -18,6 +18,11 @@
     <description>Maven plugin for OpenAPI YAML validation using Spectral</description>
 
     <dependencies>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.19.0</version>
+        </dependency>
         <!-- Maven Plugin API -->
         <dependency>
             <groupId>org.apache.maven</groupId>
