@@ -254,15 +254,59 @@ To build the plugin from source:
 git clone https://github.com/ndipiazza/spectral-maven-plugin.git
 cd spectral-maven-plugin
 
-# Download Spectral executables (requires curl)
+# Download Spectral executables (requires curl on Linux/macOS or PowerShell on Windows)
+# On Linux/macOS:
 ./copy-spectral-executables.sh
 
+# On Windows (PowerShell):
+.\copy-spectral-executables.ps1
+
 # Or specify a specific version
+# Linux/macOS:
 ./copy-spectral-executables.sh v6.15.0
+
+# Windows:
+.\copy-spectral-executables.ps1 -SpectralVersion v6.15.0
 
 # Build the plugin
 mvn clean install
 ```
+
+### Download Script Options
+
+Both scripts support the same functionality:
+
+**Linux/macOS (Bash):**
+```bash
+# Show help
+./copy-spectral-executables.sh --help
+
+# Download default version (v6.15.0)
+./copy-spectral-executables.sh
+
+# Download specific version
+./copy-spectral-executables.sh v6.11.0
+```
+
+**Windows (PowerShell):**
+```powershell
+# Show help
+.\copy-spectral-executables.ps1 -Help
+
+# Download default version (v6.15.0)
+.\copy-spectral-executables.ps1
+
+# Download specific version
+.\copy-spectral-executables.ps1 -SpectralVersion v6.11.0
+# or
+.\copy-spectral-executables.ps1 v6.11.0
+```
+
+### Requirements
+
+- **Linux/macOS**: `curl` must be installed
+- **Windows**: PowerShell 5.0 or later (included with Windows 10+)
+- **All platforms**: Internet connection required
 
 ## Testing
 
