@@ -78,13 +78,29 @@ public class SpectralExecutor {
             Path tempDir = Files.createTempDirectory("spectral-maven-plugin");
             Path executablePath = tempDir.resolve(SPECTRAL_EXECUTABLE_NAME);
             
-            // Copy executable to temp location
-            Files.copy(inputStream, executablePath, StandardCopyOption.REPLACE_EXISTING);
+            // Copy executable to temp location using binary-safe method
+            try (InputStream is = inputStream;
+                 OutputStream os = Files.newOutputStream(executablePath)) {
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                while ((bytesRead = is.read(buffer)) != -1) {
+                    os.write(buffer, 0, bytesRead);
+                }
+            }
             
             // Make executable (Unix/Linux/macOS)
             File executableFile = executablePath.toFile();
             if (!isWindows()) {
                 executableFile.setExecutable(true);
+                // Also set read permission to ensure it's accessible
+                executableFile.setReadable(true);
+                
+                // Verify the file is actually executable
+                if (!executableFile.canExecute()) {
+                    throw new SpectralExecutionException("Failed to make Spectral executable runnable: " + executableFile.getAbsolutePath());
+                }
+                
+                log.debug("Made executable: " + executableFile.getAbsolutePath());
             }
             
             // Clean up on exit
