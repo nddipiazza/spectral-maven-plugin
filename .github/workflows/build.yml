@@ -32,10 +32,16 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
-    - name: Download Spectral executables
+    - name: Download Spectral executables (Unix/Linux/macOS)
+      if: runner.os != 'Windows'
       run: |
         chmod +x copy-spectral-executables.sh
         ./copy-spectral-executables.sh
+        
+    - name: Download Spectral executables (Windows)
+      if: runner.os == 'Windows'
+      run: .\copy-spectral-executables.ps1
+      shell: pwsh
         
     - name: Run tests
       run: mvn clean test -B
@@ -70,11 +76,17 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
-    - name: Download Spectral executables
+    - name: Download Spectral executables (Unix/Linux/macOS)
+      if: runner.os != 'Windows'
       run: |
         chmod +x copy-spectral-executables.sh
         ./copy-spectral-executables.sh
         
+    - name: Download Spectral executables (Windows)
+      if: runner.os == 'Windows'
+      run: .\copy-spectral-executables.ps1
+      shell: pwsh
+      
     - name: Build project
       run: mvn clean install -B -q
       
