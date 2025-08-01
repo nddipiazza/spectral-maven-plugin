@@ -25,7 +25,7 @@ if [[ "$1" == "--help" || "$1" == "-h" ]]; then
 fi
 
 SPECTRAL_VERSION=${1:-"v6.15.0"}
-PLUGIN_DIR="/home/ndipiazza/spectral-maven-plugin/spectral-executables"
+PLUGIN_DIR="spectral-executables"
 TEMP_DIR="/tmp/spectral-downloads"
 BASE_URL="https://github.com/stoplightio/spectral/releases/download"
 
@@ -44,7 +44,7 @@ download_and_copy_executable() {
     local temp_file="$TEMP_DIR/$filename"
     
     echo "Downloading: $filename"
-    if curl -L -o "$temp_file" "$url" --fail --silent --show-error; then
+    if curl $CURL_ADDITIONAL_ARGS -L -o "$temp_file" "$url" --fail --silent --show-error; then
         echo "Copying: $filename -> $dest_dir/src/main/resources/$dest_file"
         mkdir -p "$dest_dir/src/main/resources"
         cp "$temp_file" "$dest_dir/src/main/resources/$dest_file"
