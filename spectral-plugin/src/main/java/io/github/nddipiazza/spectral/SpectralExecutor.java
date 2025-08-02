@@ -1,10 +1,16 @@
 package io.github.nddipiazza.spectral;
 
-import org.apache.maven.plugin.logging.Log;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.plugin.logging.Log;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,9 +31,9 @@ public class SpectralExecutor {
      * Validates OpenAPI files using Spectral
      */
     public SpectralResult validate(File inputDirectory, 
-                                 List<String> files, 
-                                 File ruleset, 
-                                 String format, 
+                                 List<String> files,
+                                   String ruleset,
+                                   String format,
                                  File outputFile, 
                                  boolean verbose,
                                  File targetDirectory) throws SpectralExecutionException {
@@ -120,17 +126,22 @@ public class SpectralExecutor {
     /**
      * Builds the command line for Spectral execution
      */
-    private List<String> buildSpectralCommand(File executable, File inputFile, File ruleset, String format, boolean verbose) {
+    private List<String> buildSpectralCommand(File executable, File inputFile, String ruleset, String format, boolean verbose) {
         List<String> command = new ArrayList<>();
         command.add(executable.getAbsolutePath());
         command.add("lint");
-        
-        if (ruleset != null && ruleset.exists()) {
+
+        if (StringUtils.startsWith(ruleset, "http://") || StringUtils.startsWith(ruleset, "https://")) {
             command.add("--ruleset");
-            command.add(ruleset.getAbsolutePath());
-            log.debug("Using custom ruleset: " + ruleset.getAbsolutePath());
+            command.add(ruleset);
+            log.debug("Using custom ruleset URL: " + ruleset);
+        } else if (ruleset != null && Files.exists(Paths.get(ruleset))) {
+            command.add("--ruleset");
+            String absolutePath = new File(ruleset).getAbsolutePath();
+            command.add(absolutePath);
+            log.debug("Using custom ruleset file: " + absolutePath);
         } else if (ruleset != null) {
-            log.debug("Specified ruleset file does not exist: " + ruleset.getAbsolutePath() + ", using Spectral default rules");
+            log.warn("Specified ruleset file does not exist: " + ruleset + ", using Spectral default rules");
         }
         
         if (format != null && !format.trim().isEmpty()) {

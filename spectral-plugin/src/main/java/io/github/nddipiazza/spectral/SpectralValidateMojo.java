@@ -41,7 +41,13 @@ public class SpectralValidateMojo extends AbstractMojo {
      * If the default file doesn't exist, Spectral will use its built-in ruleset.
      */
     @Parameter(property = "spectral.ruleset", defaultValue = "${project.basedir}/.spectral.yaml")
-    private File ruleset;
+    private String ruleset;
+
+    /**
+     * URL to a Spectral ruleset file. If not specified, the ruleset parameter will be used.
+     */
+    @Parameter(property = "spectral.rulesetUrl")
+    private String rulesetUrl;
 
     /**
      * Output format for Spectral results (json, yaml, junit, html, text, teamcity).
@@ -87,9 +93,9 @@ public class SpectralValidateMojo extends AbstractMojo {
             File targetDirectory = new File(project.getBuild().getDirectory());
             SpectralResult result = executor.validate(
                 inputDirectory, 
-                files, 
-                ruleset, 
-                format, 
+                files,
+                    ruleset,
+                    format,
                 outputFile, 
                 verbose,
                 targetDirectory

@@ -11,10 +11,16 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for SpectralValidateMojo
@@ -123,13 +129,27 @@ class SpectralValidateMojoTest {
     void testExecuteWithCustomRuleset() throws Exception {
         // Given
         File rulesetFile = new File(tempDir, ".spectral.yaml");
-        setPrivateField(mojo, "ruleset", rulesetFile);
+        setPrivateField(mojo, "ruleset", rulesetFile.getAbsolutePath());
         
         // When & Then
         assertThrows(MojoExecutionException.class, () -> {
             mojo.execute();
         });
         
+        verify(mockLog).info("Starting Spectral OpenAPI validation...");
+    }
+
+    @Test
+    void testExecuteWithCustomRulesetUrl() throws Exception {
+        // Given
+        URL rulesetUrl = new URL("https://example.com/spectral-ruleset.yaml");
+        setPrivateField(mojo, "ruleset", rulesetUrl.toString());
+
+        // When & Then
+        assertThrows(MojoExecutionException.class, () -> {
+            mojo.execute();
+        });
+
         verify(mockLog).info("Starting Spectral OpenAPI validation...");
     }
 
