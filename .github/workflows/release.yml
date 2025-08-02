@@ -51,7 +51,13 @@ jobs:
     - name: Set version from tag
       if: github.event_name == 'release'
       run: |
-        VERSION=${GITHUB_REF#refs/tags/v}
+        # Extract version from tag, removing refs/tags/ prefix
+        if [[ "$GITHUB_REF" =~ refs/tags/v?(.+) ]]; then
+          VERSION="${BASH_REMATCH[1]}"
+        else
+          VERSION=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
+        fi
+        echo "Setting version to: $VERSION"
         mvn versions:set -DnewVersion=$VERSION -B
         mvn versions:commit -B
         
