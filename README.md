@@ -110,6 +110,44 @@ select the correct executable for the current platform and ignore the others. Wh
 build artifact size due to unused executables, it ensures compatibility across different environments without requiring
 platform-specific configuration.
 
+So it is totally OK to just cover all your bases for the OS you might have in house, for example:
+
+```
+<build>
+    <plugins>
+        <plugin>
+            <groupId>io.github.nddipiazza</groupId>
+            <artifactId>spectral-maven-plugin</artifactId>
+           <version>6.15.0-rc1</version>
+           <dependencies>
+              <dependency>
+                 <groupId>io.github.nddipiazza</groupId>
+                 <artifactId>spectral-win</artifactId>
+                 <version>6.15.0-rc1</version>
+              </dependency>
+              <dependency>
+                  <groupId>io.github.nddipiazza</groupId>
+                  <artifactId>spectral-linux-x64</artifactId>
+                  <version>6.15.0-rc1</version>
+              </dependency>
+              <dependency>
+                  <groupId>io.github.nddipiazza</groupId>
+                  <artifactId>spectral-macos-x64</artifactId>
+                  <version>6.15.0</version>
+              </dependency>
+            </dependencies>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>validate</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+```
+
 ### Configuration Options
 
 | Parameter          | Property                    | Default                                         | Description                                                                    |
