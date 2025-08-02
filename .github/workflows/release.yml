@@ -84,6 +84,7 @@ jobs:
     - name: Import GPG key
       run: |
         mkdir -p ~/.gnupg
+        chmod 700 ~/.gnupg
         echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
         
     - name: Download Spectral executables
@@ -96,7 +97,84 @@ jobs:
         echo "use-agent" >> ~/.gnupg/gpg.conf
         echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
         echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+        echo "default-cache-ttl 21600" >> ~/.gnupg/gpg-agent.conf
+        echo "max-cache-ttl 21600" >> ~/.gnupg/gpg-agent.conf
         echo RELOADAGENT | gpg-connect-agent
+        
+        # List imported keys for debugging
+        echo "Available GPG keys:"
+        gpg --list-secret-keys --keyid-format=long
+        
+        # Get the key ID for Maven GPG plugin
+        GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format=long | grep -A1 "sec" | grep -E "[A-F0-9]{16}" | head -1 | awk '{print $1}')
+        echo "GPG_KEY_ID=$GPG_KEY_ID" >> $GITHUB_ENV
+        echo "Using GPG Key ID: $GPG_KEY_ID"
+        
+    - name: GPG Sanity Check
+      run: |
+        echo "=== GPG SANITY CHECK ==="
+        
+        # Check if GPG passphrase is set
+        if [ -z "$GPG_PASSPHRASE" ]; then
+          echo "❌ ERROR: GPG_PASSPHRASE environment variable is not set"
+          exit 1
+        else
+          echo "✅ GPG_PASSPHRASE is set"
+        fi
+        
+        # Check if we have any secret keys
+        SECRET_KEY_COUNT=$(gpg --list-secret-keys --with-colons | grep -c "^sec:")
+        if [ "$SECRET_KEY_COUNT" -eq 0 ]; then
+          echo "❌ ERROR: No GPG secret keys found"
+          echo "Available keys:"
+          gpg --list-keys
+          exit 1
+        else
+          echo "✅ Found $SECRET_KEY_COUNT GPG secret key(s)"
+        fi
+        
+        # Get the first secret key ID
+        GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format=long | grep -A1 "sec" | grep -E "[A-F0-9]{16}" | head -1 | awk '{print $1}')
+        if [ -z "$GPG_KEY_ID" ]; then
+          echo "❌ ERROR: Could not extract GPG key ID"
+          exit 1
+        else
+          echo "✅ GPG Key ID: $GPG_KEY_ID"
+        fi
+        
+        # Create a test file to sign
+        echo "test content for gpg signing" > test-file.txt
+        
+        # Test GPG signing with the passphrase
+        echo "🔍 Testing GPG signing capability..."
+        if echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode loopback --detach-sign --armor test-file.txt; then
+          echo "✅ GPG signing test successful"
+          ls -la test-file.txt*
+        else
+          echo "❌ ERROR: GPG signing test failed"
+          echo "This could indicate:"
+          echo "  - Wrong GPG passphrase"
+          echo "  - GPG key import failed"
+          echo "  - GPG configuration issues"
+          exit 1
+        fi
+        
+        # Verify the signature
+        echo "🔍 Testing GPG signature verification..."
+        if gpg --verify test-file.txt.asc test-file.txt; then
+          echo "✅ GPG signature verification successful"
+        else
+          echo "❌ ERROR: GPG signature verification failed"
+          exit 1
+        fi
+        
+        # Clean up test files
+        rm -f test-file.txt test-file.txt.asc
+        
+        echo "✅ GPG sanity check completed successfully!"
+        echo "=== END GPG SANITY CHECK ==="
+      env:
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         
     - name: Set version from input
       if: github.event_name == 'workflow_dispatch'
