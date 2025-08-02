@@ -25,14 +25,14 @@ dependency for your operating system:
         <plugin>
             <groupId>io.github.nddipiazza</groupId>
             <artifactId>spectral-maven-plugin</artifactId>
-           <version>6.15.0</version>
+           <version>6.15.0-rc1</version>
            <dependencies>
               <!-- Include the platform-specific dependency for your OS -->
               <!-- For Windows: -->
               <dependency>
                  <groupId>io.github.nddipiazza</groupId>
                  <artifactId>spectral-win</artifactId>
-                 <version>6.15.0</version>
+                 <version>6.15.0-rc1</version>
               </dependency>
 
               <!-- For Linux x64: -->
@@ -40,7 +40,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-linux-x64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.0-rc1</version>
               </dependency>
               -->
 
@@ -49,7 +49,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-linux-arm64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.0-rc1</version>
               </dependency>
               -->
 
@@ -58,7 +58,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-macos-x64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.0-rc1</version>
               </dependency>
               -->
 
@@ -67,7 +67,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-macos-arm64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.0-rc1</version>
               </dependency>
               -->
 
@@ -76,7 +76,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-alpine-x64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.0-rc1</version>
               </dependency>
               -->
 
@@ -85,7 +85,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-alpine-arm64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.0-rc1</version>
               </dependency>
               -->
            </dependencies>
@@ -129,13 +129,13 @@ platform-specific configuration.
 <plugin>
     <groupId>io.github.nddipiazza</groupId>
     <artifactId>spectral-maven-plugin</artifactId>
-   <version>6.15.0</version>
+   <version>6.15.0-rc1</version>
    <dependencies>
       <!-- Include platform-specific dependencies as needed -->
       <dependency>
          <groupId>io.github.nddipiazza</groupId>
          <artifactId>spectral-win</artifactId>
-         <version>6.15.0</version>
+         <version>6.15.0-rc1</version>
       </dependency>
    </dependencies>
     <executions>
@@ -286,10 +286,10 @@ cd spectral-maven-plugin
 
 # Or specify a specific version
 # Linux/macOS:
-./copy-spectral-executables.sh v6.15.0-rc1
+./copy-spectral-executables.sh v6.15.0-rc1-rc1
 
 # Windows:
-.\copy-spectral-executables.ps1 -SpectralVersion v6.15.0-rc1
+.\copy-spectral-executables.ps1 -SpectralVersion v6.15.0-rc1-rc1
 
 # Build the plugin
 mvn clean install
@@ -304,7 +304,7 @@ Both scripts support the same functionality:
 # Show help
 ./copy-spectral-executables.sh --help
 
-# Download default version (v6.15.0-rc1)
+# Download default version (v6.15.0-rc1-rc1)
 ./copy-spectral-executables.sh
 
 # Download specific version
@@ -316,7 +316,7 @@ Both scripts support the same functionality:
 # Show help
 .\copy-spectral-executables.ps1 -Help
 
-# Download default version (v6.15.0-rc1)
+# Download default version (v6.15.0-rc1-rc1)
 .\copy-spectral-executables.ps1
 
 # Download specific version
