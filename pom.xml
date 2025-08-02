@@ -290,7 +290,10 @@
                                     <gpgArguments>
                                         <arg>--pinentry-mode</arg>
                                         <arg>loopback</arg>
+                                        <arg>--batch</arg>
+                                        <arg>--yes</arg>
                                     </gpgArguments>
+                                    <passphraseServerId>gpg.passphrase</passphraseServerId>
                                 </configuration>
                             </execution>
                         </executions>
