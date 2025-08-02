@@ -58,34 +58,34 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-macos-x64</artifactId>
-                  <version>6.15.0-rc1</version>
+                  <version>6.15.0</version>
               </dependency>
               -->
 
-              <!-- For macOS ARM64 (Apple Silicon): -->
+               <!-- For macOS ARM64 (Apple Silicon): -->
               <!--
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-macos-arm64</artifactId>
-                  <version>6.15.0-rc1</version>
+                  <version>6.15.0</version>
               </dependency>
               -->
 
-              <!-- For Alpine Linux x64: -->
+               <!-- For Alpine Linux x64: -->
               <!--
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-alpine-x64</artifactId>
-                  <version>6.15.0-rc1</version>
+                  <version>6.15.0</version>
               </dependency>
               -->
 
-              <!-- For Alpine Linux ARM64: -->
+               <!-- For Alpine Linux ARM64: -->
               <!--
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-alpine-arm64</artifactId>
-                  <version>6.15.0-rc1</version>
+                  <version>6.15.0</version>
               </dependency>
               -->
            </dependencies>
@@ -112,16 +112,16 @@ platform-specific configuration.
 
 ### Configuration Options
 
-| Parameter | Property | Default | Description |
-|-----------|----------|---------|-------------|
-| `inputDirectory` | `spectral.inputDirectory` | `${project.basedir}/src/main/resources/openapi` | Directory containing OpenAPI files |
-| `files` | `spectral.files` | - | Specific files to validate (if not set, all YAML/JSON files in inputDirectory) |
-| `ruleset` | `spectral.ruleset` | - | Path to custom Spectral ruleset file |
-| `format` | `spectral.format` | `text` | Output format (text, json, yaml, junit, html, teamcity) |
-| `outputFile` | `spectral.outputFile` | - | File to write results to (console if not specified) |
-| `failOnViolations` | `spectral.failOnViolations` | `true` | Fail build if violations found |
-| `skip` | `spectral.skip` | `false` | Skip validation |
-| `verbose` | `spectral.verbose` | `false` | Enable verbose output |
+| Parameter          | Property                    | Default                                         | Description                                                                    |
+|--------------------|-----------------------------|-------------------------------------------------|--------------------------------------------------------------------------------|
+| `inputDirectory`   | `spectral.inputDirectory`   | `${project.basedir}/src/main/resources/openapi` | Directory containing OpenAPI files                                             |
+| `files`            | `spectral.files`            | -                                               | Specific files to validate (if not set, all YAML/JSON files in inputDirectory) |
+| `ruleset`          | `spectral.ruleset`          | -                                               | Path to custom Spectral ruleset file                                           |
+| `format`           | `spectral.format`           | `text`                                          | Output format (text, json, yaml, junit, html, teamcity)                        |
+| `outputFile`       | `spectral.outputFile`       | -                                               | File to write results to (console if not specified)                            |
+| `failOnViolations` | `spectral.failOnViolations` | `true`                                          | Fail build if violations found                                                 |
+| `skip`             | `spectral.skip`             | `false`                                         | Skip validation                                                                |
+| `verbose`          | `spectral.verbose`          | `false`                                         | Enable verbose output                                                          |
 
 ### Advanced Configuration
 
@@ -184,6 +184,7 @@ mvn spectral:validate -Dspectral.skip=true
 ### Resource Organization
 
 The plugin organizes platform-specific executables in a structured resource hierarchy:
+
 ```
 src/main/resources/
 └── spectral/
@@ -210,11 +211,13 @@ This organization allows multiple platform executables to coexist in the same en
 ### Debug Mode
 
 Enable Maven debug logging to see detailed execution information:
+
 ```bash
 mvn spectral:validate -X
 ```
 
 This will show:
+
 - Which executable is being used
 - Temporary file locations
 - Full command line arguments
@@ -226,7 +229,7 @@ The plugin includes platform-specific Spectral executables for:
 
 - Windows (x64)
 - Linux (x64, ARM64)
-- macOS (x64, ARM64)  
+- macOS (x64, ARM64)
 - Alpine Linux (x64, ARM64)
 
 The correct executable is automatically selected based on your operating system and architecture.
@@ -300,6 +303,7 @@ mvn clean install
 Both scripts support the same functionality:
 
 **Linux/macOS (Bash):**
+
 ```bash
 # Show help
 ./copy-spectral-executables.sh --help
@@ -312,6 +316,7 @@ Both scripts support the same functionality:
 ```
 
 **Windows (PowerShell):**
+
 ```powershell
 # Show help
 .\copy-spectral-executables.ps1 -Help
