@@ -42,6 +42,13 @@ jobs:
         chmod +x copy-spectral-executables.sh
         ./copy-spectral-executables.sh
         
+    - name: Configure GPG
+      run: |
+        echo "use-agent" >> ~/.gnupg/gpg.conf
+        echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+        echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+        echo RELOADAGENT | gpg-connect-agent
+        
     - name: Set version from input
       if: github.event_name == 'workflow_dispatch'
       run: |
@@ -65,7 +72,7 @@ jobs:
       run: mvn clean test -B
       
     - name: Deploy to Maven Central
-      run: mvn clean deploy -Prelease -B
+      run: mvn clean deploy -Prelease -B -Dgpg.passphrase="${GPG_PASSPHRASE}"
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
