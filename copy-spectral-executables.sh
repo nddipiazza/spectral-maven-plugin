@@ -10,13 +10,13 @@ if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     echo "Downloads Spectral executables from GitHub releases and installs them into the Maven plugin."
     echo ""
     echo "Arguments:"
-    echo "  spectral-version  The Spectral version to download (default: v6.15.0-rc1)"
-    echo "                    Must be in format 'vX.Y.Z' (e.g., v6.15.0-rc1, v6.11.0)"
+    echo "  spectral-version  The Spectral version to download (default: v6.15.0)"
+    echo "                    Must be in format 'vX.Y.Z' (e.g., v6.15.0, v6.11.0)"
     echo ""
     echo "Examples:"
-    echo "  $0                # Downloads v6.15.0-rc1"
+    echo "  $0                # Downloads v6.15.0"
     echo "  $0 v6.11.0        # Downloads v6.11.0"
-    echo "  $0 v6.15.0-rc1        # Downloads v6.15.0-rc1"
+    echo "  $0 v6.15.0        # Downloads v6.15.0"
     echo ""
     echo "Requirements:"
     echo "  - curl must be installed"
@@ -24,7 +24,7 @@ if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     exit 0
 fi
 
-SPECTRAL_VERSION=${1:-"v6.15.0-rc1"}
+SPECTRAL_VERSION=${1:-"v6.15.0"}
 
 # Strip any trailing suffixes like -rc1, -beta, etc. from the version for GitHub release downloads
 # This converts versions like "v6.15.0-rc1" to "v6.15.0" for the download URL
