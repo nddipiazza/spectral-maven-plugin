@@ -25,6 +25,13 @@ jobs:
         java-version: 17
         distribution: 'temurin'
         
+    - name: Cache Maven dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+        
     - name: Create Maven settings.xml
       run: |
         mkdir -p ~/.m2
@@ -79,13 +86,6 @@ jobs:
         mkdir -p ~/.gnupg
         echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
         
-    - name: Cache Maven dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
-        
     - name: Download Spectral executables
       run: |
         chmod +x copy-spectral-executables.sh
@@ -121,7 +121,13 @@ jobs:
       run: mvn clean test -B
       
     - name: Deploy to Maven Central
-      run: mvn clean deploy -Prelease -B -Dgpg.passphrase="${GPG_PASSPHRASE}"
+      run: |
+        echo "Final verification before deployment:"
+        ls -la ~/.m2/settings.xml
+        echo "Environment check:"
+        echo "MAVEN_USERNAME length: ${#MAVEN_USERNAME}"
+        echo "MAVEN_PASSWORD length: ${#MAVEN_PASSWORD}"
+        mvn clean deploy -Prelease -B -Dgpg.passphrase="${GPG_PASSPHRASE}"
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
