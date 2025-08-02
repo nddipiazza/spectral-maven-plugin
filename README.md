@@ -51,33 +51,12 @@ src/main/resources/
 
 This organization allows multiple platform executables to coexist in the same environment without conflicts.
 
-The fixed implementation replaces the problematic:
-```java
-Files.copy(inputStream, executablePath, StandardCopyOption.REPLACE_EXISTING);
-```
-
-With a binary-safe approach:
-```java
-try (InputStream is = inputStream;
-     OutputStream os = Files.newOutputStream(executablePath)) {
-    byte[] buffer = new byte[8192];
-    int bytesRead;
-    while ((bytesRead = is.read(buffer)) != -1) {
-        os.write(buffer, 0, bytesRead);
-    }
-}
-// Then set executable permissions on Unix systems
-if (!isWindows()) {
-    executableFile.setExecutable(true);
-    executableFile.setReadable(true);
-}
-```
-
 ## Usage
 
 ### Basic Configuration
 
-Add the plugin to your Maven project's `pom.xml`:
+Add the plugin to your Maven project's `pom.xml`. You need to include both the plugin and the platform-specific
+dependency for your operating system:
 
 ```xml
 <build>
@@ -85,7 +64,70 @@ Add the plugin to your Maven project's `pom.xml`:
         <plugin>
             <groupId>io.github.nddipiazza</groupId>
             <artifactId>spectral-maven-plugin</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+           <version>6.15.0</version>
+           <dependencies>
+              <!-- Include the platform-specific dependency for your OS -->
+              <!-- For Windows: -->
+              <dependency>
+                 <groupId>io.github.nddipiazza</groupId>
+                 <artifactId>spectral-win</artifactId>
+                 <version>6.15.0</version>
+              </dependency>
+
+              <!-- For Linux x64: -->
+              <!--
+              <dependency>
+                  <groupId>io.github.nddipiazza</groupId>
+                  <artifactId>spectral-linux-x64</artifactId>
+                  <version>6.15.0</version>
+              </dependency>
+              -->
+
+              <!-- For Linux ARM64: -->
+              <!--
+              <dependency>
+                  <groupId>io.github.nddipiazza</groupId>
+                  <artifactId>spectral-linux-arm64</artifactId>
+                  <version>6.15.0</version>
+              </dependency>
+              -->
+
+              <!-- For macOS x64: -->
+              <!--
+              <dependency>
+                  <groupId>io.github.nddipiazza</groupId>
+                  <artifactId>spectral-macos-x64</artifactId>
+                  <version>6.15.0</version>
+              </dependency>
+              -->
+
+              <!-- For macOS ARM64 (Apple Silicon): -->
+              <!--
+              <dependency>
+                  <groupId>io.github.nddipiazza</groupId>
+                  <artifactId>spectral-macos-arm64</artifactId>
+                  <version>6.15.0</version>
+              </dependency>
+              -->
+
+              <!-- For Alpine Linux x64: -->
+              <!--
+              <dependency>
+                  <groupId>io.github.nddipiazza</groupId>
+                  <artifactId>spectral-alpine-x64</artifactId>
+                  <version>6.15.0</version>
+              </dependency>
+              -->
+
+              <!-- For Alpine Linux ARM64: -->
+              <!--
+              <dependency>
+                  <groupId>io.github.nddipiazza</groupId>
+                  <artifactId>spectral-alpine-arm64</artifactId>
+                  <version>6.15.0</version>
+              </dependency>
+              -->
+           </dependencies>
             <executions>
                 <execution>
                     <goals>
@@ -97,6 +139,15 @@ Add the plugin to your Maven project's `pom.xml`:
     </plugins>
 </build>
 ```
+
+**Note:** Uncomment only the dependency that matches your operating system and architecture. The plugin will
+automatically detect and use the correct Spectral executable for your platform.
+
+**Multi-Platform Support:** If you need to support multiple platforms (e.g., for CI/CD environments or team development
+across different operating systems), you can include multiple platform dependencies. The plugin will automatically
+select the correct executable for the current platform and ignore the others. While this increases the download size and
+build artifact size due to unused executables, it ensures compatibility across different environments without requiring
+platform-specific configuration.
 
 ### Configuration Options
 
@@ -117,7 +168,15 @@ Add the plugin to your Maven project's `pom.xml`:
 <plugin>
     <groupId>io.github.nddipiazza</groupId>
     <artifactId>spectral-maven-plugin</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+   <version>6.15.0</version>
+   <dependencies>
+      <!-- Include platform-specific dependencies as needed -->
+      <dependency>
+         <groupId>io.github.nddipiazza</groupId>
+         <artifactId>spectral-win</artifactId>
+         <version>6.15.0</version>
+      </dependency>
+   </dependencies>
     <executions>
         <execution>
             <goals>
