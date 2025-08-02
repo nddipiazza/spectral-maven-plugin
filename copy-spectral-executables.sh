@@ -25,11 +25,18 @@ if [[ "$1" == "--help" || "$1" == "-h" ]]; then
 fi
 
 SPECTRAL_VERSION=${1:-"v6.15.0-rc1"}
+
+# Strip any trailing suffixes like -rc1, -beta, etc. from the version for GitHub release downloads
+# This converts versions like "v6.15.0-rc1" to "v6.15.0" for the download URL
+DOWNLOAD_VERSION=$(echo "$SPECTRAL_VERSION" | sed 's/-.*$//')
+
 PLUGIN_DIR="spectral-executables"
 TEMP_DIR="/tmp/spectral-downloads"
 BASE_URL="https://github.com/stoplightio/spectral/releases/download"
 
-echo "Downloading Spectral executables version: $SPECTRAL_VERSION"
+echo "Original version: $SPECTRAL_VERSION"
+echo "Download version (suffix stripped): $DOWNLOAD_VERSION"
+echo "Downloading Spectral executables from GitHub release: $DOWNLOAD_VERSION"
 echo "To plugin directory: $PLUGIN_DIR"
 
 # Create temporary directory for downloads
@@ -40,7 +47,7 @@ download_and_copy_executable() {
     local filename="$1"
     local dest_dir="$2"
     local resource_path="$3"
-    local url="$BASE_URL/$SPECTRAL_VERSION/$filename"
+    local url="$BASE_URL/$DOWNLOAD_VERSION/$filename"
     local temp_file="$TEMP_DIR/$filename"
     
     echo "Downloading: $filename"

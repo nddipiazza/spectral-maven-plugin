@@ -31,7 +31,13 @@ $PluginDir = "spectral-executables"
 $TempDir = "$env:TEMP\spectral-downloads"
 $BaseUrl = "https://github.com/stoplightio/spectral/releases/download"
 
-Write-Host "Downloading Spectral executables version: $SpectralVersion" -ForegroundColor Green
+# Strip any trailing suffixes like -rc1, -beta, etc. from the version for GitHub release downloads
+# This converts versions like "v6.15.0-rc1" to "v6.15.0" for the download URL
+$DownloadVersion = $SpectralVersion -replace '-.*$', ''
+
+Write-Host "Original version: $SpectralVersion" -ForegroundColor Green
+Write-Host "Download version (suffix stripped): $DownloadVersion" -ForegroundColor Green
+Write-Host "Downloading Spectral executables from GitHub release: $DownloadVersion" -ForegroundColor Green
 Write-Host "To plugin directory: $PluginDir" -ForegroundColor Green
 
 # Create temporary directory for downloads
@@ -48,7 +54,7 @@ function Download-And-Copy-Executable {
         [string]$ResourcePath
     )
     
-    $Url = "$BaseUrl/$SpectralVersion/$Filename"
+    $Url = "$BaseUrl/$DownloadVersion/$Filename"
     $TempFile = Join-Path $TempDir $Filename
     $DestPath = Join-Path "$DestDir\src\main\resources" $ResourcePath
     $DestFolder = Split-Path $DestPath -Parent
