@@ -42,16 +42,16 @@ jobs:
                                       https://maven.apache.org/xsd/settings-1.0.0.xsd">
           <servers>
             <server>
-              <id>ossrh</id>
-              <username>${MAVEN_USERNAME}</username>
-              <password>${MAVEN_PASSWORD}</password>
+              <id>central</id>
+              <username>${CENTRAL_USERNAME}</username>
+              <password>${CENTRAL_TOKEN}</password>
             </server>
           </servers>
         </settings>
         EOF
       env:
-        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+        CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+        CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
         
     - name: Verify Maven settings and credentials
       run: |
@@ -62,24 +62,24 @@ jobs:
         cat ~/.m2/settings.xml | sed 's/<username>.*<\/username>/<username>[MASKED]<\/username>/g' | sed 's/<password>.*<\/password>/<password>[MASKED]<\/password>/g'
         echo ""
         echo "Verifying environment variables are set:"
-        if [ -z "$MAVEN_USERNAME" ]; then
-          echo "ERROR: MAVEN_USERNAME is empty or not set"
+        if [ -z "$CENTRAL_USERNAME" ]; then
+          echo "ERROR: CENTRAL_USERNAME is empty or not set"
           exit 1
         else
-          echo "MAVEN_USERNAME is set (length: ${#MAVEN_USERNAME})"
+          echo "CENTRAL_USERNAME is set (length: ${#CENTRAL_USERNAME})"
         fi
-        if [ -z "$MAVEN_PASSWORD" ]; then
-          echo "ERROR: MAVEN_PASSWORD is empty or not set"
+        if [ -z "$CENTRAL_TOKEN" ]; then
+          echo "ERROR: CENTRAL_TOKEN is empty or not set"
           exit 1
         else
-          echo "MAVEN_PASSWORD is set (length: ${#MAVEN_PASSWORD})"
+          echo "CENTRAL_TOKEN is set (length: ${#CENTRAL_TOKEN})"
         fi
         echo ""
         echo "Testing Maven can read settings:"
-        mvn help:effective-settings | grep -A 10 -B 5 "ossrh" || echo "No ossrh server found in effective settings"
+        mvn help:effective-settings | grep -A 10 -B 5 "central" || echo "No central server found in effective settings"
       env:
-        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+        CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+        CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
         
     - name: Import GPG key
       run: |
@@ -125,12 +125,12 @@ jobs:
         echo "Final verification before deployment:"
         ls -la ~/.m2/settings.xml
         echo "Environment check:"
-        echo "MAVEN_USERNAME length: ${#MAVEN_USERNAME}"
-        echo "MAVEN_PASSWORD length: ${#MAVEN_PASSWORD}"
+        echo "CENTRAL_USERNAME length: ${#CENTRAL_USERNAME}"
+        echo "CENTRAL_TOKEN length: ${#CENTRAL_TOKEN}"
         mvn clean deploy -Prelease -B -Dgpg.passphrase="${GPG_PASSPHRASE}"
       env:
-        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+        CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+        CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         
     - name: Create GitHub Release Assets
