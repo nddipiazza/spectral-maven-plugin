@@ -45,8 +45,8 @@ jobs:
         
     - name: Import GPG key
       run: |
-        echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --dearmor > ~/.gnupg/secring.gpg
-        gpg --import ~/.gnupg/secring.gpg
+        mkdir -p ~/.gnupg
+        echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
         
     - name: Cache Maven dependencies
       uses: actions/cache@v4
@@ -62,7 +62,6 @@ jobs:
         
     - name: Configure GPG
       run: |
-        mkdir -p ~/.gnupg
         echo "use-agent" >> ~/.gnupg/gpg.conf
         echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
         echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
