@@ -251,7 +251,7 @@ For TeamCity integration:
 To build the plugin from source:
 
 ```bash
-git clone https://github.com/ndipiazza/spectral-maven-plugin.git
+git clone https://github.com/nddipiazza/spectral-maven-plugin.git
 cd spectral-maven-plugin
 
 # Download Spectral executables (requires curl on Linux/macOS or PowerShell on Windows)
@@ -263,10 +263,10 @@ cd spectral-maven-plugin
 
 # Or specify a specific version
 # Linux/macOS:
-./copy-spectral-executables.sh v6.15.0
+./copy-spectral-executables.sh v6.15.0-rc1
 
 # Windows:
-.\copy-spectral-executables.ps1 -SpectralVersion v6.15.0
+.\copy-spectral-executables.ps1 -SpectralVersion v6.15.0-rc1
 
 # Build the plugin
 mvn clean install
@@ -281,7 +281,7 @@ Both scripts support the same functionality:
 # Show help
 ./copy-spectral-executables.sh --help
 
-# Download default version (v6.15.0)
+# Download default version (v6.15.0-rc1)
 ./copy-spectral-executables.sh
 
 # Download specific version
@@ -293,7 +293,7 @@ Both scripts support the same functionality:
 # Show help
 .\copy-spectral-executables.ps1 -Help
 
-# Download default version (v6.15.0)
+# Download default version (v6.15.0-rc1)
 .\copy-spectral-executables.ps1
 
 # Download specific version

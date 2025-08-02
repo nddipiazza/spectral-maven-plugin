@@ -63,7 +63,7 @@ public class SpectralExecutor {
     /**
      * Extracts the platform-specific Spectral executable from resources
      */
-    private File extractSpectralExecutable(File targetDirectory) throws SpectralExecutionException {
+    protected File extractSpectralExecutable(File targetDirectory) throws SpectralExecutionException {
         try {
             String resourcePath = "/" + SPECTRAL_EXECUTABLE_NAME;
             InputStream inputStream = getClass().getResourceAsStream(resourcePath);

@@ -2,7 +2,7 @@
 # Usage: .\copy-spectral-executables.ps1 [spectral-version]
 
 param(
-    [string]$SpectralVersion = "v6.15.0",
+    [string]$SpectralVersion = "v6.15.0-rc1",
     [switch]$Help
 )
 
@@ -13,13 +13,13 @@ if ($Help) {
     Write-Host "Downloads Spectral executables from GitHub releases and installs them into the Maven plugin."
     Write-Host ""
     Write-Host "Parameters:"
-    Write-Host "  -SpectralVersion  The Spectral version to download (default: v6.15.0)"
-    Write-Host "                    Must be in format 'vX.Y.Z' (e.g., v6.15.0, v6.11.0)"
+    Write-Host "  -SpectralVersion  The Spectral version to download (default: v6.15.0-rc1)"
+    Write-Host "                    Must be in format 'vX.Y.Z' (e.g., v6.15.0-rc1, v6.11.0)"
     Write-Host ""
     Write-Host "Examples:"
-    Write-Host "  .\copy-spectral-executables.ps1                    # Downloads v6.15.0"
+    Write-Host "  .\copy-spectral-executables.ps1                    # Downloads v6.15.0-rc1"
     Write-Host "  .\copy-spectral-executables.ps1 -SpectralVersion v6.11.0  # Downloads v6.11.0"
-    Write-Host "  .\copy-spectral-executables.ps1 v6.15.0           # Downloads v6.15.0"
+    Write-Host "  .\copy-spectral-executables.ps1 v6.15.0-rc1           # Downloads v6.15.0-rc1"
     Write-Host ""
     Write-Host "Requirements:"
     Write-Host "  - PowerShell 5.0 or later"

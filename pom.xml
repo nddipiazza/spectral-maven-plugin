@@ -6,12 +6,12 @@
 
     <groupId>io.github.nddipiazza</groupId>
     <artifactId>spectral-maven-plugin-parent</artifactId>
-    <version>6.15.0</version>
+    <version>6.15.0-rc1</version>
     <packaging>pom</packaging>
 
     <name>Spectral Maven Plugin Parent</name>
     <description>A Maven plugin for OpenAPI YAML validation using Spectral</description>
-    <url>https://github.com/ndipiazza/spectral-maven-plugin</url>
+    <url>https://github.com/nddipiazza/spectral-maven-plugin</url>
 
     <licenses>
         <license>
