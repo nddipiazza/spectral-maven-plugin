@@ -83,7 +83,7 @@ Add the plugin to your Maven project's `pom.xml`:
 <build>
     <plugins>
         <plugin>
-            <groupId>io.github.ndipiazza</groupId>
+            <groupId>io.github.nddipiazza</groupId>
             <artifactId>spectral-maven-plugin</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <executions>
@@ -115,7 +115,7 @@ Add the plugin to your Maven project's `pom.xml`:
 
 ```xml
 <plugin>
-    <groupId>io.github.ndipiazza</groupId>
+    <groupId>io.github.nddipiazza</groupId>
     <artifactId>spectral-maven-plugin</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <executions>

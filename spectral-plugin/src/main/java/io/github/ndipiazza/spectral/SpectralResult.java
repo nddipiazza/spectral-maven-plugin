@@ -1,4 +1,4 @@
-package io.github.ndipiazza.spectral;
+package io.github.nddipiazza.spectral;
 
 /**
  * Represents the result of a Spectral validation execution

@@ -1,4 +1,4 @@
-package io.github.ndipiazza.spectral;
+package io.github.nddipiazza.spectral;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.commons.io.IOUtils;

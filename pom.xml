@@ -5,7 +5,7 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.ndipiazza</groupId>
+    <groupId>io.github.nddipiazza</groupId>
     <artifactId>spectral-maven-plugin-parent</artifactId>
     <version>6.15.0</version>
     <packaging>pom</packaging>
@@ -13,6 +13,40 @@
     <name>Spectral Maven Plugin Parent</name>
     <description>A Maven plugin for OpenAPI YAML validation using Spectral</description>
     <url>https://github.com/ndipiazza/spectral-maven-plugin</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>ndipiazza</id>
+            <name>Nicholas DiPiazza</name>
+            <email>ndipiazza@users.noreply.github.com</email>
+            <url>https://github.com/ndipiazza</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/ndipiazza/spectral-maven-plugin.git</connection>
+        <developerConnection>scm:git:ssh://github.com:ndipiazza/spectral-maven-plugin.git</developerConnection>
+        <url>https://github.com/ndipiazza/spectral-maven-plugin/tree/main</url>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

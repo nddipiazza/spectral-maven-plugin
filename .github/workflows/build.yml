@@ -52,7 +52,7 @@ jobs:
     - name: Test plugin functionality
       run: |
         cd test-project
-        mvn io.github.ndipiazza:spectral-maven-plugin:validate -B
+        mvn io.github.nddipiazza:spectral-maven-plugin:validate -B
         
   build:
     name: Build Project

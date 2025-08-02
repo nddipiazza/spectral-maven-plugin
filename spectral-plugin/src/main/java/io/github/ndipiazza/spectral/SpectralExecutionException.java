@@ -1,4 +1,4 @@
-package io.github.ndipiazza.spectral;
+package io.github.nddipiazza.spectral;
 
 /**
  * Exception thrown when Spectral execution fails

@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.github.ndipiazza</groupId>
+        <groupId>io.github.nddipiazza</groupId>
         <artifactId>spectral-maven-plugin-parent</artifactId>
         <version>6.15.0</version>
     </parent>

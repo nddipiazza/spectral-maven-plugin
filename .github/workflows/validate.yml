@@ -39,7 +39,7 @@ jobs:
     - name: Validate test project OpenAPI files
       run: |
         cd test-project
-        mvn io.github.ndipiazza:spectral-maven-plugin:validate -B
+        mvn io.github.nddipiazza:spectral-maven-plugin:validate -B
         
     - name: Check for dependency vulnerabilities
       run: mvn org.owasp:dependency-check-maven:check -B
@@ -59,4 +59,4 @@ jobs:
         echo "All executables properly packaged!"
         
     - name: Test plugin help
-      run: mvn io.github.ndipiazza:spectral-maven-plugin:help -B
+      run: mvn io.github.nddipiazza:spectral-maven-plugin:help -B
