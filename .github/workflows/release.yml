@@ -46,6 +46,34 @@ jobs:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
         
+    - name: Verify Maven settings and credentials
+      run: |
+        echo "Checking if Maven settings.xml exists:"
+        ls -la ~/.m2/settings.xml
+        echo ""
+        echo "Checking Maven settings content (masking sensitive data):"
+        cat ~/.m2/settings.xml | sed 's/<username>.*<\/username>/<username>[MASKED]<\/username>/g' | sed 's/<password>.*<\/password>/<password>[MASKED]<\/password>/g'
+        echo ""
+        echo "Verifying environment variables are set:"
+        if [ -z "$MAVEN_USERNAME" ]; then
+          echo "ERROR: MAVEN_USERNAME is empty or not set"
+          exit 1
+        else
+          echo "MAVEN_USERNAME is set (length: ${#MAVEN_USERNAME})"
+        fi
+        if [ -z "$MAVEN_PASSWORD" ]; then
+          echo "ERROR: MAVEN_PASSWORD is empty or not set"
+          exit 1
+        else
+          echo "MAVEN_PASSWORD is set (length: ${#MAVEN_PASSWORD})"
+        fi
+        echo ""
+        echo "Testing Maven can read settings:"
+        mvn help:effective-settings | grep -A 10 -B 5 "ossrh" || echo "No ossrh server found in effective settings"
+      env:
+        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+        
     - name: Import GPG key
       run: |
         mkdir -p ~/.gnupg
