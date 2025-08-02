@@ -133,7 +133,7 @@ So it is totally OK to just cover all your bases for the OS you might have in ho
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-macos-x64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.0-rc2</version>
               </dependency>
             </dependencies>
             <executions>
