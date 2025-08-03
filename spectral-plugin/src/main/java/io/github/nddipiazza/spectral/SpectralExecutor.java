@@ -131,6 +131,12 @@ public class SpectralExecutor {
         command.add(executable.getAbsolutePath());
         command.add("lint");
 
+        if (ruleset != null) {
+            log.info("Using ruleset: " + ruleset);
+        } else {
+            log.info("No ruleset specified, using Spectral default rules");
+        }
+
         if (StringUtils.startsWith(ruleset, "http://") || StringUtils.startsWith(ruleset, "https://")) {
             command.add("--ruleset");
             command.add(ruleset);

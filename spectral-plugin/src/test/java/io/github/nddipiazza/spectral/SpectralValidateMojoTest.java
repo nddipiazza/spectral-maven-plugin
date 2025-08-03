@@ -142,7 +142,7 @@ class SpectralValidateMojoTest {
     @Test
     void testExecuteWithCustomRulesetUrl() throws Exception {
         // Given
-        URL rulesetUrl = new URL("https://example.com/spectral-ruleset.yaml");
+        URL rulesetUrl = new URL("https://notareal-url-example.com/spectral-ruleset.yaml");
         setPrivateField(mojo, "ruleset", rulesetUrl.toString());
 
         // When & Then
