@@ -8,7 +8,7 @@
     <parent>
         <groupId>io.github.nddipiazza</groupId>
         <artifactId>spectral-executables</artifactId>
-        <version>6.15.0-rc4</version>
+        <version>6.16.0-beta1</version>
     </parent>
 
     <artifactId>spectral-macos-x64</artifactId>

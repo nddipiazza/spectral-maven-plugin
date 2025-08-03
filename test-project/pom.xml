@@ -7,7 +7,7 @@
     
     <groupId>com.example</groupId>
     <artifactId>test-project</artifactId>
-    <version>6.15.0-rc4</version>
+    <version>6.16.0-beta1</version>
     <packaging>jar</packaging>
     
     <name>Test Project</name>
@@ -24,7 +24,7 @@
             <plugin>
                 <groupId>io.github.nddipiazza</groupId>
                 <artifactId>spectral-maven-plugin</artifactId>
-                <version>6.15.0-rc4</version>
+                <version>6.16.0-beta1</version>
                 <executions>
                     <execution>
                         <goals>
