@@ -40,6 +40,31 @@
                 <dependencies>
                     <dependency>
                         <groupId>io.github.nddipiazza</groupId>
+                        <artifactId>spectral-win</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.nddipiazza</groupId>
+                        <artifactId>spectral-alpine-arm64</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.nddipiazza</groupId>
+                        <artifactId>spectral-alpine-x64</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.nddipiazza</groupId>
+                        <artifactId>spectral-linux-arm64</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.nddipiazza</groupId>
+                        <artifactId>spectral-linux-x64</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.nddipiazza</groupId>
                         <artifactId>spectral-macos-arm64</artifactId>
                         <version>${project.version}</version>
                     </dependency>
