@@ -137,7 +137,7 @@ public class SpectralExecutor {
             log.info("No ruleset specified, using Spectral default rules");
         }
 
-        if (StringUtils.startsWith(ruleset, "http://") || StringUtils.startsWith(ruleset, "https://")) {
+        if (ruleset != null && (ruleset.startsWith("http://") || ruleset.startsWith("https://"))) {
             command.add("--ruleset");
             command.add(ruleset);
             log.debug("Using custom ruleset URL: " + ruleset);
