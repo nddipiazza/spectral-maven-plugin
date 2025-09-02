@@ -25,14 +25,14 @@ dependency for your operating system:
         <plugin>
             <groupId>io.github.nddipiazza</groupId>
             <artifactId>spectral-maven-plugin</artifactId>
-            <version>6.15.0</version>
+            <version>6.15.3</version>
            <dependencies>
               <!-- Include the platform-specific dependency for your OS -->
               <!-- For Windows: -->
               <dependency>
                  <groupId>io.github.nddipiazza</groupId>
                  <artifactId>spectral-win</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.3</version>
               </dependency>
 
               <!-- For Linux x64: -->
@@ -40,7 +40,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-linux-x64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.3</version>
               </dependency>
               -->
 
@@ -49,7 +49,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-linux-arm64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.3</version>
               </dependency>
               -->
 
@@ -58,7 +58,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-macos-x64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.3</version>
               </dependency>
               -->
 
@@ -67,7 +67,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-macos-arm64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.3</version>
               </dependency>
               -->
 
@@ -76,7 +76,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-alpine-x64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.3</version>
               </dependency>
               -->
 
@@ -85,7 +85,7 @@ dependency for your operating system:
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-alpine-arm64</artifactId>
-                  <version>6.15.0</version>
+                  <version>6.15.3</version>
               </dependency>
               -->
            </dependencies>
