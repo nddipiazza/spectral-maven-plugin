@@ -118,22 +118,22 @@ So it is totally OK to just cover all your bases for the OS you might have in ho
         <plugin>
             <groupId>io.github.nddipiazza</groupId>
             <artifactId>spectral-maven-plugin</artifactId>
-           <version>6.15.2</version>
+           <version>6.15.3</version>
            <dependencies>
               <dependency>
                  <groupId>io.github.nddipiazza</groupId>
                  <artifactId>spectral-win</artifactId>
-                 <version>6.15.2</version>
+                 <version>6.15.3</version>
               </dependency>
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-linux-x64</artifactId>
-                  <version>6.15.2</version>
+                  <version>6.15.3</version>
               </dependency>
               <dependency>
                   <groupId>io.github.nddipiazza</groupId>
                   <artifactId>spectral-macos-x64</artifactId>
-                  <version>6.15.2</version>
+                  <version>6.15.3</version>
               </dependency>
             </dependencies>
             <executions>
@@ -167,13 +167,13 @@ So it is totally OK to just cover all your bases for the OS you might have in ho
 <plugin>
     <groupId>io.github.nddipiazza</groupId>
     <artifactId>spectral-maven-plugin</artifactId>
-    <version>6.15.2</version>
+    <version>6.15.3</version>
    <dependencies>
       <!-- Include platform-specific dependencies as needed -->
       <dependency>
          <groupId>io.github.nddipiazza</groupId>
          <artifactId>spectral-win</artifactId>
-          <version>6.15.2</version>
+          <version>6.15.3</version>
       </dependency>
    </dependencies>
     <executions>

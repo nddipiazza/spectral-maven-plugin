@@ -8,7 +8,7 @@
     <parent>
         <groupId>io.github.nddipiazza</groupId>
         <artifactId>spectral-maven-plugin-parent</artifactId>
-        <version>6.15.2</version>
+        <version>6.15.3</version>
     </parent>
 
     <artifactId>spectral-executables</artifactId>
